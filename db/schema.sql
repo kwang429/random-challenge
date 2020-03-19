@@ -11,7 +11,7 @@ CREATE TABLE challenges(
   name TEXT,
   category TEXT [],
   link TEXT,
-  completed Boolean
+  complete Boolean DEFAULT false
 );
 
 CREATE TABLE completed(
