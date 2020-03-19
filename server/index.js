@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('../db/index.js');
+const dbHelpers = require('../db/dbHelpers.js');
 
 // middleware
 const bodyParser = require('body-parser');
@@ -15,3 +15,5 @@ app.use('/', express.static(path.join(__dirname, '../client/public')));
 const port = 3000;
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
+
+/*-- API REQUESTS --*/
