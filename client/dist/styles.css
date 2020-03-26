@@ -1,0 +1,32 @@
+body,
+select,
+button {
+  font-family: 'Montserrat', 'sans-serif';
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+input[type='text'] {
+  font-family: 'Montserrat', 'sans-serif';
+  color: blue;
+  width: 80%;
+  padding: 12px 20px;
+  border: 2px solid lightslategray;
+  border-radius: 7px;
+  text-align: center;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: lightgreen;
+  cursor: pointer;
+}
+
+select {
+  width: 100%;
+  margin-bottom: 10px;
+  height: 30px;
+}

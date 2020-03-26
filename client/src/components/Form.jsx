@@ -7,18 +7,18 @@ function Form() {
 
   return (
     <div>
-      <div>
-        <b>Challenge Name: </b>
-        <input onChange={e => setName(e.target.value)}></input>
+      <div id='inputSection'>
+        <h3>Challenge Name: </h3>
+        <input type='text' onChange={e => setName(e.target.value)}></input>
       </div>
-      <div>
-        <b>Challenge Link: </b>
-        <input onChange={e => setLink(e.target.value)}></input>
+      <div id='inputSection'>
+        <h3>Challenge Link: </h3>
+        <input type='text' onChange={e => setLink(e.target.value)}></input>
       </div>
-      <div>
-        <b>Challenge Category(s): </b>
+      <div id='inputSection'>
+        <h3>Challenge Category(s): </h3>
         <select>
-          <option></option>
+          <option defaultValue>--Select a category--</option>
         </select>
       </div>
       <div>
