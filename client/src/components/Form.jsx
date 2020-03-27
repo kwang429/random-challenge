@@ -5,25 +5,36 @@ function Form() {
   const [link, setLink] = useState('');
   const [category, setCat] = useState([]);
 
+  const addCategory = function(e) {
+    let target = e.target.value.toLowerCase();
+    if (!category.includes(target)) {
+      setCat(category.concat(target));
+    }
+  };
+
   return (
     <div>
-      <div id='inputSection'>
+      <div>
         <h3>Challenge Name: </h3>
         <input type='text' onChange={e => setName(e.target.value)}></input>
       </div>
-      <div id='inputSection'>
+      <div>
         <h3>Challenge Link: </h3>
         <input type='text' onChange={e => setLink(e.target.value)}></input>
       </div>
-      <div id='inputSection'>
+      <div>
         <h3>Challenge Category(s): </h3>
-        <select>
+        <select onChange={addCategory}>
           <option defaultValue>--Select a category--</option>
+          <option>Arrays</option>
+          <option>Strings</option>
         </select>
       </div>
       <div>
         <button
-          onClick={() => console.log(`You're submitting ${name} and ${link}`)}
+          onClick={() =>
+            console.log(`You're submitting ${name}, ${category} and ${link}`)
+          }
         >
           Submit
         </button>
