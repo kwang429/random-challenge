@@ -29,6 +29,6 @@ Then install the required dependencies using:
 
 Next, turn on the server by running this command and navigating to localhost:3000 on your browser (preferably Google Chrome):
 
-`npm run server`
+`npm start`
 
 Should you make any changes on your fork and would like to see them in the browser, run webpack with `npm run build`
