@@ -1,8 +1,24 @@
-const db = require('./index.js');
+const db = require('./index.js').db;
 
 const dbHelpers = {
+  getCatIds: function(arr, callback) {
+    let idArr = [];
+    for (var cat of arr) {
+      let queryString = `SELECT id FROM categories WHERE type = "${cat}"`;
+      db.query(queryString, (err, result) => {
+        if (err) {
+          callback(`err getting ${cat} id`, err);
+        } else {
+          console.log('idArr', idArr);
+          idArr.push(result);
+        }
+      });
+    }
+    return idArr;
+  },
   addChallenge: function(data, callback) {
-    let queryString = `INSERT INTO challenges(name, category, link) VALUES (${data.name}, ${data.category}, ${data.link})`;
+    let idArr = getCatIds(data.categories);
+    let queryString = `INSERT INTO challenges(name, category, link) VALUES (${data.name}, ARRAY ${idArr}, ${data.link})`;
     db.query(queryString, (err, result) => {
       if (err) {
         callback(err);
@@ -33,9 +49,19 @@ const dbHelpers = {
             console.log("Couldn't add to completed table");
             callback(err);
           } else {
-            callback(result);
+            callback(null, result);
           }
         });
+      }
+    });
+  },
+  getCategories: function(callback) {
+    let queryString = 'SELECT * FROM categories';
+    db.query(queryString, (err, result) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, result);
       }
     });
   }

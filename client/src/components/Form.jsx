@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-function Form() {
+function Form({ categories }) {
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
   const [category, setCat] = useState([]);
@@ -26,8 +27,9 @@ function Form() {
         <h3>Challenge Category(s): </h3>
         <select onChange={addCategory}>
           <option defaultValue>--Select a category--</option>
-          <option>Arrays</option>
-          <option>Strings</option>
+          {categories.map((cat, index) => (
+            <option key={index}>{cat.type}</option>
+          ))}
         </select>
       </div>
       <div>
