@@ -11,37 +11,40 @@ function Form({ categories }) {
     if (!category.includes(target)) {
       setCat(category.concat(target));
     }
+    console.log(category);
   };
 
   return (
-    <div>
-      <div>
-        <h3>Challenge Name: </h3>
-        <input type='text' onChange={e => setName(e.target.value)}></input>
-      </div>
-      <div>
-        <h3>Challenge Link: </h3>
-        <input type='text' onChange={e => setLink(e.target.value)}></input>
-      </div>
-      <div>
-        <h3>Challenge Category(s): </h3>
-        <select onChange={addCategory}>
-          <option defaultValue>--Select a category--</option>
-          {categories.map((cat, index) => (
-            <option key={index}>{cat.type}</option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <button
-          onClick={() =>
-            console.log(`You're submitting ${name}, ${category} and ${link}`)
-          }
-        >
-          Submit
-        </button>
-      </div>
-    </div>
+    <form>
+      <h3 className='challengeName'>Challenge Name: </h3>
+      <input type='text' onChange={e => setName(e.target.value)}></input>
+
+      <h3 className='challengeLink'>Challenge Link: </h3>
+      <input type='text' onChange={e => setLink(e.target.value)}></input>
+
+      <h3 className='challengeCat'>Challenge Category(s): </h3>
+      {categories.map((cat, index) => {
+        return (
+          <div key={index}>
+            <input
+              type='checkbox'
+              name={cat.id}
+              value={cat.type}
+              onChange={addCategory}
+            />
+            <label>{cat.type}</label>
+          </div>
+        );
+      })}
+
+      <button
+        onClick={() =>
+          console.log(`You're submitting ${name}, ${category} and ${link}`)
+        }
+      >
+        Submit
+      </button>
+    </form>
   );
 }
 
