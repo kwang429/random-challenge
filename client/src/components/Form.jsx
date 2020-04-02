@@ -6,8 +6,6 @@ function Form({ categories }) {
   const [link, setLink] = useState('');
   const [category, setCat] = useState([]);
 
-  console.log(categories);
-
   const addCategory = function(e) {
     let target = e.target.value.toLowerCase();
     if (!category.includes(target)) {

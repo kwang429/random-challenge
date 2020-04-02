@@ -17,3 +17,13 @@ const port = 3000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 /*-- API REQUESTS --*/
+
+app.get('/categories', (req, res) => {
+  dbHelpers.getCategories((err, data) => {
+    if (err) {
+      res.status(404).send(`Err in getCategories: ${err}`);
+    } else {
+      res.status(200).send(data.rows);
+    }
+  });
+});
