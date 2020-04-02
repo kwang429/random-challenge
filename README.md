@@ -27,6 +27,10 @@ Then install the required dependencies using:
 
 `npm install`
 
+After installing the dependencies, create a copy of the `copy.env` file and rename it to `.env`. Here, you can fill in your personal database info for Postgres. If you want to use a new database instead of the default "postgres" db, you'll have to first create the database manually (either through the psql shell or a pg GUI). After that, upload the schema file using the terminal command:
+
+`psql [db_name] < db/schema.sql`
+
 Next, turn on the server by running this command and navigating to localhost:3000 on your browser (preferably Google Chrome):
 
 `npm start`
