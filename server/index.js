@@ -27,3 +27,18 @@ app.get('/categories', (req, res) => {
     }
   });
 });
+
+app.post('/challenge', ({ body }, res) => {
+  let addData = {
+    name: body.name,
+    categories: body.categories,
+    link: body.link,
+  };
+  dbHelpers.addChallenge(addData, (err, data) => {
+    if (err) {
+      res.status(404).send(`Err in addChallenge: ${err}`);
+    } else {
+      res.status(200).send(`Successfully added ${body.name} to db`);
+    }
+  });
+});
