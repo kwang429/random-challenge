@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function Form({ categories }) {
   const [name, setName] = useState('');
@@ -6,7 +7,7 @@ function Form({ categories }) {
   const [selectedCats, setCat] = useState({});
 
   const handleCatChange = function (e) {
-    let cat = e.target.value.toLowerCase();
+    let cat = e.target.value;
     if (e.target.checked) {
       selectedCats[cat] = 1;
       setCat(selectedCats);
@@ -17,11 +18,19 @@ function Form({ categories }) {
   };
 
   // replace this function with an axios post
-  const showClick = function (e) {
+  const handleSubmit = function (e) {
     e.preventDefault();
-    console.log(
-      `You're submitting ${name}, ${Object.keys(selectedCats)} and ${link}`
-    );
+    // console.log(
+    //   `You're submitting ${name}, ${Object.keys(selectedCats)} and ${link}`
+    // );
+    axios
+      .post('/challenge', {
+        name: name,
+        categories: Object.keys(selectedCats),
+        link: link,
+      })
+      .then(() => console.log('posted'))
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -47,7 +56,7 @@ function Form({ categories }) {
         );
       })}
 
-      <button onClick={showClick}>Submit</button>
+      <button onClick={handleSubmit}>Submit</button>
     </form>
   );
 }
