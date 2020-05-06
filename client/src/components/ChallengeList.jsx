@@ -4,24 +4,28 @@ import axios from 'axios';
 export default function ChallengeList({ challenges }) {
   return (
     <table>
-      <tr>
-        <th>Challenge Name</th>
-        <th>Categories</th>
-        <th>Link</th>
-        <th>Complete</th>
-        <th>Premium</th>
-      </tr>
-      {challenges.map((challenge, i) => {
-        return (
-          <tr key={i}>
-            <td>{challenge.name}</td>
-            <td>{challenge.cat_id}</td>
-            <td>{challenge.link}</td>
-            <td>{challenge.complete}</td>
-            <td>{challenge.name}</td>
-          </tr>
-        );
-      })}
+      <thead>
+        <tr>
+          <th>Challenge Name</th>
+          <th>Categories</th>
+          <th>Link</th>
+          <th>Complete</th>
+          <th>Premium</th>
+        </tr>
+      </thead>
+      <tbody>
+        {challenges.map((challenge, i) => {
+          return (
+            <tr key={i}>
+              <td>{challenge.name}</td>
+              <td>{JSON.stringify(challenge.cat_id)}</td>
+              <td>{challenge.link}</td>
+              <td>{JSON.stringify(challenge.complete)}</td>
+              <td>{JSON.stringify(challenge.premium)}</td>
+            </tr>
+          );
+        })}
+      </tbody>
     </table>
   );
 }
