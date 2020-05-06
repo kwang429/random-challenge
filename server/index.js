@@ -28,6 +28,17 @@ app.get('/categories', (req, res) => {
   });
 });
 
+// GET request for all challenges
+app.get('/getAll', (req, res) => {
+  dbHelpers.getAll((err, data) => {
+    if (err) {
+      res.status(404).send(`Err in getAll: ${err}`);
+    } else {
+      res.status(200).send(data.rows);
+    }
+  });
+});
+
 app.post('/challenge', ({ body }, res) => {
   let addData = {
     name: body.name,

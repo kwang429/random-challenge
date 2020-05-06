@@ -86,6 +86,16 @@ const dbHelpers = {
       }
     });
   },
+  getAll: function (callback) {
+    let queryString = 'SELECT * FROM challenges';
+    db.query(queryString, (err, result) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, result);
+      }
+    });
+  },
 };
 
 module.exports = dbHelpers;
