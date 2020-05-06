@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Form from './Form.jsx';
 import ChallengeList from './ChallengeList.jsx';
+import RandomChallenge from './RandomChallenge.jsx';
 import axios from 'axios';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
 
   return (
     <div>
+      <RandomChallenge />
       <Form categories={allCats} />
       <ChallengeList challenges={allChallenges} />
     </div>
