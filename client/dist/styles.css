@@ -30,3 +30,8 @@ select {
   margin-bottom: 10px;
   height: 30px;
 }
+
+h2 {
+  padding: 15px;
+  border-style: solid;
+}
