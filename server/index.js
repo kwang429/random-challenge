@@ -19,24 +19,27 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 /*-- API REQUESTS --*/
 
 app.get('/categories', (req, res) => {
-  dbHelpers.getCategories((err, data) => {
-    if (err) {
-      res.status(404).send(`Err in getCategories: ${err}`);
-    } else {
-      res.status(200).send(data.rows);
-    }
-  });
+  dbHelpers
+    .getCategories()
+    .then((data) => res.status(200).send(data.rows))
+    .catch((err) => res.status(404).send(`Err in getCategories: ${err}`));
 });
 
 // GET request for all challenges
+/* Refactor: Promises Vers.
+app.get('/getAll')
+  .then((data) => {
+  res.status(200).send(data.rows)
+})
+  .catch((err) => {
+  res.status(404).send(err in getAll)
+  })
+*/
 app.get('/getAll', (req, res) => {
-  dbHelpers.getAll((err, data) => {
-    if (err) {
-      res.status(404).send(`Err in getAll: ${err}`);
-    } else {
-      res.status(200).send(data.rows);
-    }
-  });
+  dbHelpers
+    .getAll()
+    .then((data) => res.status(200).send(data.rows))
+    .catch((err) => res.status(404).send(`Err in getAll: ${err}`));
 });
 
 app.post('/challenge', ({ body }, res) => {
