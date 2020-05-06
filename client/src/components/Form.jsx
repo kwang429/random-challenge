@@ -20,9 +20,6 @@ function Form({ categories }) {
   // replace this function with an axios post
   const handleSubmit = function (e) {
     e.preventDefault();
-    // console.log(
-    //   `You're submitting ${name}, ${Object.keys(selectedCats)} and ${link}`
-    // );
     axios
       .post('/challenge', {
         name: name,
