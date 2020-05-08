@@ -37,8 +37,8 @@ const dbHelpers = {
       });
     });
 
-    idArr.then((result) => {
-      let queryString = `INSERT INTO challenges(name, cat_id, link) VALUES ('${data.name}', ARRAY [${result}], '${data.link}')`;
+    idArr.then((arr) => {
+      let queryString = `INSERT INTO challenges(name, cat_id, link) VALUES ('${data.name}', ARRAY [${arr}], '${data.link}')`;
       db.query(queryString, (err, result) => {
         if (err) {
           callback(err);
@@ -61,6 +61,28 @@ const dbHelpers = {
   completeChallenge: function (id, callback) {
     let updateStr = `UPDATE challenges SET completed = true WHERE id = ${id}`;
     let addStr = `INSERT INTO completed (ref_id) VALUES (${id})`;
+
+    const updateReq = new Promise((resolve, reject) => {
+      db.query(updateStr, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+
+    const addReq = new Promise((resolve, reject) => {
+      db.query(addStr, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+
+    updateReq.then(() => addReq);
     db.query(updateStr, (err, result) => {
       if (err) {
         callback(err);
@@ -76,24 +98,28 @@ const dbHelpers = {
       }
     });
   },
-  getCategories: function (callback) {
+  getCategories: function () {
     let queryString = 'SELECT * FROM categories';
-    db.query(queryString, (err, result) => {
-      if (err) {
-        callback(err);
-      } else {
-        callback(null, result);
-      }
+    return new Promise((resolve, reject) => {
+      db.query(queryString, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
     });
   },
-  getAll: function (callback) {
+  getAll: function () {
     let queryString = 'SELECT * FROM challenges';
-    db.query(queryString, (err, result) => {
-      if (err) {
-        callback(err);
-      } else {
-        callback(null, result);
-      }
+    return new Promise((resolve, reject) => {
+      db.query(queryString, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
     });
   },
 };
