@@ -1,6 +1,44 @@
 const db = require('./index.js').db;
 
 const dbHelpers = {
+  getCatTypes: function (challengeArr) {
+    return new Promise((resolve, reject) => {
+      let allPromises = [];
+      let fetchTypes = function (catID) {
+        return new Promise((resolve, reject) => {
+          let queryString = `SELECT type FROM categories WHERE id = ${catID};`;
+          db.query(queryString, (err, result) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result.rows);
+            }
+          });
+        });
+      };
+      for (var challenge of challengeArr) {
+        let challengePromises = [];
+        for (var catID of challenge.cat_id) {
+          challengePromises.push(fetchTypes(catID));
+        }
+        allPromises.push(challengePromises);
+      }
+      Promise.all(allPromises.map(Promise.all.bind(Promise)))
+        .then((result) => {
+          for (var i = 0; i < result.length; i++) {
+            delete challengeArr[i].cat_id;
+            challengeArr[i].cat_types = [];
+            for (var j = 0; j < result[i].length; j++) {
+              challengeArr[i].cat_types.push(result[i][j][0].type);
+            }
+          }
+
+          return challengeArr;
+        })
+        .then((finalResult) => resolve(finalResult))
+        .catch((err) => reject(err));
+    });
+  },
   getCatIds: function (arr, callback) {
     let promises = [];
     function fetchId(category) {
@@ -113,15 +151,23 @@ const dbHelpers = {
     });
   },
   getAll: function () {
-    let queryString = 'SELECT * FROM challenges';
     return new Promise((resolve, reject) => {
-      db.query(queryString, (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result);
-        }
-      });
+      let queryString = 'SELECT * FROM challenges';
+      let getChallenges = function () {
+        return new Promise((resolve, reject) => {
+          db.query(queryString, (err, result) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result);
+            }
+          });
+        });
+      };
+      getChallenges()
+        .then(({ rows }) => this.getCatTypes(rows))
+        .then((result) => resolve(result))
+        .catch((err) => reject(`Err in getAll ${err}`));
     });
   },
 };

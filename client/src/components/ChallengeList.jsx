@@ -18,7 +18,13 @@ export default function ChallengeList({ challenges }) {
           return (
             <tr key={i}>
               <td>{challenge.name}</td>
-              <td>{JSON.stringify(challenge.cat_id)}</td>
+              <td>
+                {challenge.cat_types.map((catStr, i) => (
+                  <span key={i} className='cat_badge'>
+                    {catStr}
+                  </span>
+                ))}
+              </td>
               <td>{challenge.link}</td>
               <td>{JSON.stringify(challenge.complete)}</td>
               <td>{JSON.stringify(challenge.premium)}</td>
