@@ -1,7 +1,7 @@
 const db = require('./index.js').db;
 
 const dbHelpers = {
-  getCatTypes: function (arr) {
+  getCatTypes: function (challengeArr) {
     return new Promise((resolve, reject) => {
       let allPromises = [];
       let fetchTypes = function (catID) {
@@ -16,7 +16,7 @@ const dbHelpers = {
           });
         });
       };
-      for (var challenge of arr) {
+      for (var challenge of challengeArr) {
         let challengePromises = [];
         for (var catID of challenge.cat_id) {
           challengePromises.push(fetchTypes(catID));
@@ -24,7 +24,18 @@ const dbHelpers = {
         allPromises.push(challengePromises);
       }
       Promise.all(allPromises.map(Promise.all.bind(Promise)))
-        .then((result) => resolve(result))
+        .then((result) => {
+          for (var i = 0; i < result.length; i++) {
+            delete challengeArr[i].cat_id;
+            challengeArr[i].cat_types = [];
+            for (var j = 0; j < result[i].length; j++) {
+              challengeArr[i].cat_types.push(result[i][j][0].type);
+            }
+          }
+
+          return challengeArr;
+        })
+        .then((finalResult) => resolve(finalResult))
         .catch((err) => reject(err));
     });
   },
@@ -155,15 +166,8 @@ const dbHelpers = {
       };
       getChallenges()
         .then(({ rows }) => this.getCatTypes(rows))
-        .catch((err) => {
-          console.log('Err in getCatTypes');
-          reject(err);
-        })
-        .then((arr) => resolve(arr))
-        .catch((err) => {
-          console.log('Err in resolving type arr');
-          reject(err);
-        });
+        .then((result) => resolve(result))
+        .catch((err) => reject(`Err in getAll ${err}`));
     });
   },
 };
