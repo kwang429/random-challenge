@@ -1,6 +1,33 @@
 const db = require('./index.js').db;
 
 const dbHelpers = {
+  getCatTypes: function (arr) {
+    return new Promise((resolve, reject) => {
+      let allPromises = [];
+      let fetchTypes = function (catID) {
+        return new Promise((resolve, reject) => {
+          let queryString = `SELECT type FROM categories WHERE id = ${catID};`;
+          db.query(queryString, (err, result) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result.rows);
+            }
+          });
+        });
+      };
+      for (var challenge of arr) {
+        let challengePromises = [];
+        for (var catID of challenge.cat_id) {
+          challengePromises.push(fetchTypes(catID));
+        }
+        allPromises.push(challengePromises);
+      }
+      Promise.all(allPromises.map(Promise.all.bind(Promise)))
+        .then((result) => resolve(result))
+        .catch((err) => reject(err));
+    });
+  },
   getCatIds: function (arr, callback) {
     let promises = [];
     function fetchId(category) {
@@ -113,15 +140,30 @@ const dbHelpers = {
     });
   },
   getAll: function () {
-    let queryString = 'SELECT * FROM challenges';
     return new Promise((resolve, reject) => {
-      db.query(queryString, (err, result) => {
-        if (err) {
+      let queryString = 'SELECT * FROM challenges';
+      let getChallenges = function () {
+        return new Promise((resolve, reject) => {
+          db.query(queryString, (err, result) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result);
+            }
+          });
+        });
+      };
+      getChallenges()
+        .then(({ rows }) => this.getCatTypes(rows))
+        .catch((err) => {
+          console.log('Err in getCatTypes');
           reject(err);
-        } else {
-          resolve(result);
-        }
-      });
+        })
+        .then((arr) => resolve(arr))
+        .catch((err) => {
+          console.log('Err in resolving type arr');
+          reject(err);
+        });
     });
   },
 };

@@ -38,7 +38,7 @@ app.get('/getAll')
 app.get('/getAll', (req, res) => {
   dbHelpers
     .getAll()
-    .then((data) => res.status(200).send(data.rows))
+    .then((data) => res.status(200).send(data))
     .catch((err) => res.status(404).send(`Err in getAll: ${err}`));
 });
 
