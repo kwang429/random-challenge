@@ -50,12 +50,14 @@ const dbHelpers = {
   },
   deleteChallenge: function (id, callback) {
     let queryString = `DELETE FROM challenges WHERE id=${id}`;
-    db.query(queryString, (err, result) => {
-      if (err) {
-        callback(err);
-      } else {
-        callback(null, result);
-      }
+    return new Promise((resolve, reject) => {
+      db.query(queryString, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
     });
   },
   completeChallenge: function (id, callback) {

@@ -56,3 +56,10 @@ app.post('/challenge', ({ body }, res) => {
     }
   });
 });
+
+app.delete('/delete', ({ body }, res) => {
+  dbHelpers
+    .deleteChallenge(body.id)
+    .then(() => res.status(200).send(`Successfully deleted ${body.id}`))
+    .catch((err) => res.status(404).send(`Err in deleting ${body.id}`));
+});
