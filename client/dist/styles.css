@@ -49,3 +49,10 @@ th {
 td {
   text-align: left;
 }
+
+.cat_badge {
+  border-radius: 5px;
+  padding: 5px;
+  margin: 3px;
+  background-color: rgb(170, 228, 238);
+}
