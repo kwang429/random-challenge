@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ChallengeList from './ChallengeList.jsx';
 
 export default function RandomChallenge({ challenges }) {
   const [randomChallenge, setRandom] = useState({});
@@ -10,7 +11,7 @@ export default function RandomChallenge({ challenges }) {
 
   const RenderChallenge = function () {
     if (randomChallenge.name) {
-      return <div>{randomChallenge.name}</div>;
+      return <ChallengeList challenges={[randomChallenge]} />;
     } else {
       return <div></div>;
     }
