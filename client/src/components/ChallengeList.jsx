@@ -24,7 +24,9 @@ export default function ChallengeList({ challenges }) {
                   </span>
                 ))}
               </td>
-              <td>{challenge.link}</td>
+              <td>
+                <a href={challenge.link}>{challenge.link}</a>
+              </td>
               <td>{JSON.stringify(challenge.complete)}</td>
               <td>{JSON.stringify(challenge.premium)}</td>
             </tr>
