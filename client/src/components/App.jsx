@@ -16,6 +16,7 @@ function App() {
 
   useEffect(() => {
     updateCategories();
+    getAll();
   }, []);
 
   /*-- Get Challenges --*/
@@ -27,13 +28,9 @@ function App() {
     });
   };
 
-  useEffect(() => {
-    getAll();
-  }, []);
-
   return (
     <div>
-      <RandomChallenge />
+      <RandomChallenge challenges={allChallenges} />
       <Form categories={allCats} />
       <ChallengeList challenges={allChallenges} />
     </div>
