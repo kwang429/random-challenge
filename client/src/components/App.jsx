@@ -29,7 +29,7 @@ function App() {
 
   useEffect(() => {
     getAll();
-  });
+  }, []);
 
   return (
     <div>
