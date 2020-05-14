@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function Form({ categories }) {
+function Form({ categories, getChallenges }) {
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
   const [selectedCats, setCat] = useState({});
@@ -26,7 +26,9 @@ function Form({ categories }) {
         categories: Object.keys(selectedCats),
         link: link,
       })
-      .then(() => console.log('posted'))
+      .then(() => {
+        getChallenges();
+      })
       .catch((err) => console.log(err));
   };
 

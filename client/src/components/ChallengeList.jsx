@@ -1,25 +1,31 @@
 import React from 'react';
+import axios from 'axios';
 
-export default function ChallengeList({ challenges }) {
+export default function ChallengeList({ challenges, getChallenges }) {
+  const handleDelete = function (e) {
+    const { value } = e.target;
+    axios
+      .put('/delete', { id: value })
+      .then(() => getChallenges())
+      .catch((err) => console.log(err));
+  };
+
   return (
     <table>
       <thead>
         <tr>
-          <th></th>
           <th>Challenge Name</th>
           <th>Categories</th>
           <th>Link</th>
           <th>Complete</th>
           <th>Premium</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         {challenges.map((challenge, i) => {
           return (
             <tr key={i}>
-              <td>
-                <input type='checkbox' />
-              </td>
               <td>{challenge.name}</td>
               <td>
                 {challenge.cat_types.map((catStr, i) => (
@@ -33,6 +39,15 @@ export default function ChallengeList({ challenges }) {
               </td>
               <td>{JSON.stringify(challenge.complete)}</td>
               <td>{JSON.stringify(challenge.premium)}</td>
+              <td>
+                <button
+                  value={challenge.id}
+                  name={challenge.name}
+                  onClick={handleDelete.bind(this)}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           );
         })}
