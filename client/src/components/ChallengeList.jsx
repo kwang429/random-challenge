@@ -1,6 +1,15 @@
 import React from 'react';
+import axios from 'axios';
 
-export default function ChallengeList({ challenges }) {
+export default function ChallengeList({ challenges, getChallenges }) {
+  const handleDelete = function (e) {
+    const { value } = e.target;
+    axios
+      .put('/delete', { id: value })
+      .then(() => getChallenges())
+      .catch((err) => console.log(err));
+  };
+
   return (
     <table>
       <thead>
@@ -10,6 +19,7 @@ export default function ChallengeList({ challenges }) {
           <th>Link</th>
           <th>Complete</th>
           <th>Premium</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -29,6 +39,15 @@ export default function ChallengeList({ challenges }) {
               </td>
               <td>{JSON.stringify(challenge.complete)}</td>
               <td>{JSON.stringify(challenge.premium)}</td>
+              <td>
+                <button
+                  value={challenge.id}
+                  name={challenge.name}
+                  onClick={handleDelete.bind(this)}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           );
         })}

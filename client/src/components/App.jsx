@@ -31,8 +31,8 @@ function App() {
   return (
     <div>
       <RandomChallenge challenges={allChallenges} />
-      <Form categories={allCats} />
-      <ChallengeList challenges={allChallenges} />
+      <Form categories={allCats} getChallenges={getAll} />
+      <ChallengeList challenges={allChallenges} getChallenges={getAll} />
     </div>
   );
 }
