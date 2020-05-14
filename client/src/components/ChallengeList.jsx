@@ -5,6 +5,7 @@ export default function ChallengeList({ challenges }) {
     <table>
       <thead>
         <tr>
+          <th></th>
           <th>Challenge Name</th>
           <th>Categories</th>
           <th>Link</th>
@@ -16,6 +17,9 @@ export default function ChallengeList({ challenges }) {
         {challenges.map((challenge, i) => {
           return (
             <tr key={i}>
+              <td>
+                <input type='checkbox' />
+              </td>
               <td>{challenge.name}</td>
               <td>
                 {challenge.cat_types.map((catStr, i) => (
