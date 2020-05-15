@@ -10,6 +10,14 @@ export default function ChallengeList({ challenges, getChallenges }) {
       .catch((err) => console.log(err));
   };
 
+  const handleUpdate = function (e) {
+    const { value } = e.target;
+    axios
+      .put('/update', { id: value })
+      .then(() => getChallenges())
+      .catch((err) => console.log(err));
+  };
+
   return (
     <table>
       <thead>
@@ -43,9 +51,12 @@ export default function ChallengeList({ challenges, getChallenges }) {
                 <button
                   value={challenge.id}
                   name={challenge.name}
-                  onClick={handleDelete.bind(this)}
+                  onClick={handleDelete()}
                 >
                   Delete
+                </button>
+                <button value={challenge.id} onClick={handleUpdate}>
+                  Update
                 </button>
               </td>
             </tr>

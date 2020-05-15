@@ -138,6 +138,7 @@ const dbHelpers = {
       }
     });
   },
+
   getCategories: function () {
     let queryString = 'SELECT * FROM categories';
     return new Promise((resolve, reject) => {
@@ -169,6 +170,9 @@ const dbHelpers = {
         .then((result) => resolve(result))
         .catch((err) => reject(`Err in getAll ${err}`));
     });
+  },
+  updateChallenge: function () {
+    let queryString = `UPDATE challenges SET name = '${name}', link = '${link}', complete = ${complete}, premium = ${premium} WHERE id = ${id};`;
   },
 };
 
