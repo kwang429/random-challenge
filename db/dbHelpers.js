@@ -98,49 +98,21 @@ const dbHelpers = {
       });
     });
   },
-  completeChallenge: function (id, callback) {
-    let updateStr = `UPDATE challenges SET completed = true WHERE id = ${id}`;
-    let addStr = `INSERT INTO completed (ref_id) VALUES (${id})`;
-
-    const updateReq = new Promise((resolve, reject) => {
-      db.query(updateStr, (err, result) => {
+  updateCompleteStatus: function (id) {
+    return new Promise((resolve, reject) => {
+      let queryString = `UPDATE challenges SET complete = NOT complete WHERE id = ${id}`;
+      db.query(queryString, (err, result) => {
         if (err) {
           reject(err);
         } else {
           resolve(result);
         }
       });
-    });
-
-    const addReq = new Promise((resolve, reject) => {
-      db.query(addStr, (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result);
-        }
-      });
-    });
-
-    updateReq.then(() => addReq);
-    db.query(updateStr, (err, result) => {
-      if (err) {
-        callback(err);
-      } else {
-        db.query(addStr, (err, result) => {
-          if (err) {
-            console.log("Couldn't add to completed table");
-            callback(err);
-          } else {
-            callback(null, result);
-          }
-        });
-      }
     });
   },
 
   getCategories: function () {
-    let queryString = 'SELECT * FROM categories';
+    let queryString = 'SELECT * FROM categories;';
     return new Promise((resolve, reject) => {
       db.query(queryString, (err, result) => {
         if (err) {
@@ -153,7 +125,7 @@ const dbHelpers = {
   },
   getAll: function () {
     return new Promise((resolve, reject) => {
-      let queryString = 'SELECT * FROM challenges';
+      let queryString = 'SELECT * FROM challenges ORDER BY id;';
       let getChallenges = function () {
         return new Promise((resolve, reject) => {
           db.query(queryString, (err, result) => {
@@ -170,9 +142,6 @@ const dbHelpers = {
         .then((result) => resolve(result))
         .catch((err) => reject(`Err in getAll ${err}`));
     });
-  },
-  updateChallenge: function () {
-    let queryString = `UPDATE challenges SET name = '${name}', link = '${link}', complete = ${complete}, premium = ${premium} WHERE id = ${id};`;
   },
 };
 

@@ -10,10 +10,9 @@ export default function ChallengeList({ challenges, getChallenges }) {
       .catch((err) => console.log(err));
   };
 
-  const handleUpdate = function (e) {
-    const { value } = e.target;
+  const handleCompleteStatus = function (challengeID) {
     axios
-      .put('/update', { id: value })
+      .put('/completeStatus', { id: challengeID })
       .then(() => getChallenges())
       .catch((err) => console.log(err));
   };
@@ -45,19 +44,23 @@ export default function ChallengeList({ challenges, getChallenges }) {
               <td>
                 <a href={challenge.link}>{challenge.link}</a>
               </td>
-              <td>{JSON.stringify(challenge.complete)}</td>
+              <td>
+                <input
+                  type='checkbox'
+                  checked={challenge.complete}
+                  onChange={() => handleCompleteStatus(challenge.id)}
+                ></input>
+              </td>
               <td>{JSON.stringify(challenge.premium)}</td>
               <td>
                 <button
                   value={challenge.id}
                   name={challenge.name}
-                  onClick={handleDelete()}
+                  onClick={handleDelete}
                 >
                   Delete
                 </button>
-                <button value={challenge.id} onClick={handleUpdate}>
-                  Update
-                </button>
+                <button value={challenge.id}>Update</button>
               </td>
             </tr>
           );
