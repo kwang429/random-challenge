@@ -4,7 +4,6 @@
 */
 
 DROP TABLE IF EXISTS challenges CASCADE;
-DROP TABLE IF EXISTS completed CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
 
 CREATE TABLE categories(
@@ -19,11 +18,6 @@ CREATE TABLE challenges(
   link TEXT,
   complete Boolean DEFAULT false,
   premium Boolean DEFAULT false
-);
-
-CREATE TABLE completed(
-  id SERIAL PRIMARY KEY,
-  ref_id INTEGER REFERENCES challenges(id)
 );
 
 INSERT INTO categories(type) VALUES ('Arrays');
