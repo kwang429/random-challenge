@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function Form({ categories, getChallenges }) {
@@ -25,7 +25,7 @@ function Form({ categories, getChallenges }) {
   // replace this function with an axios post
   const handleSubmit = function (e) {
     e.preventDefault();
-    if (!name.length || !selectedCats.length || !link.length) {
+    if (!name.length || !Object.keys(selectedCats).length || !link.length) {
       alert('Please fill out the name, link, and category(s)!');
     } else {
       axios
@@ -57,7 +57,7 @@ function Form({ categories, getChallenges }) {
               type='checkbox'
               name={cat.id}
               value={cat.type}
-              onChange={handleCatChange}
+              onClick={handleCatChange}
             />
             <label>{cat.type}</label>
           </div>
