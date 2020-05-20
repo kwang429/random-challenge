@@ -5,6 +5,11 @@ function Form({ categories, getChallenges }) {
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
   const [selectedCats, setCat] = useState({});
+  const initialStates = {
+    name: '',
+    link: '',
+    categories: {},
+  };
 
   const handleCatChange = function (e) {
     let cat = e.target.value;
@@ -20,16 +25,20 @@ function Form({ categories, getChallenges }) {
   // replace this function with an axios post
   const handleSubmit = function (e) {
     e.preventDefault();
-    axios
-      .post('/challenge', {
-        name: name,
-        categories: Object.keys(selectedCats),
-        link: link,
-      })
-      .then(() => {
-        getChallenges();
-      })
-      .catch((err) => console.log(err));
+    if (!name.length || !selectedCats.length || !link.length) {
+      alert('Please fill out the name, link, and category(s)!');
+    } else {
+      axios
+        .post('/challenge', {
+          name: name,
+          categories: Object.keys(selectedCats),
+          link: link,
+        })
+        .then(() => {
+          getChallenges();
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
