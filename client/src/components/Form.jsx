@@ -5,21 +5,25 @@ function Form({ categories, getChallenges }) {
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
   const [selectedCats, setCat] = useState({});
-  const initialStates = {
-    name: '',
-    link: '',
-    categories: {},
-  };
 
   const handleCatChange = function (e) {
     let cat = e.target.value;
     if (e.target.checked) {
       selectedCats[cat] = 1;
-      setCat(selectedCats);
     } else {
       delete selectedCats[cat];
-      setCat(selectedCats);
     }
+    setCat(selectedCats);
+  };
+
+  const clearForm = function () {
+    setName('');
+    setLink('');
+    setCat({});
+  };
+
+  const unChecked = function (cat) {
+    return selectedCats[cat] ? true : false;
   };
 
   // replace this function with an axios post
@@ -37,6 +41,7 @@ function Form({ categories, getChallenges }) {
         .then(() => {
           getChallenges();
         })
+        .then(() => clearForm())
         .catch((err) => console.log(err));
     }
   };
@@ -44,10 +49,18 @@ function Form({ categories, getChallenges }) {
   return (
     <form>
       <h3 className='challengeName'>Challenge Name: </h3>
-      <input type='text' onChange={(e) => setName(e.target.value)}></input>
+      <input
+        type='text'
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      ></input>
 
       <h3 className='challengeLink'>Challenge Link: </h3>
-      <input type='text' onChange={(e) => setLink(e.target.value)}></input>
+      <input
+        type='text'
+        value={link}
+        onChange={(e) => setLink(e.target.value)}
+      ></input>
 
       <h3 className='challengeCat'>Challenge Category(s): </h3>
       {categories.map((cat, index) => {
@@ -57,7 +70,7 @@ function Form({ categories, getChallenges }) {
               type='checkbox'
               name={cat.id}
               value={cat.type}
-              onClick={handleCatChange}
+              onChange={handleCatChange}
             />
             <label>{cat.type}</label>
           </div>
