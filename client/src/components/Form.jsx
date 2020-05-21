@@ -22,10 +22,6 @@ function Form({ categories, getChallenges }) {
     setCat({});
   };
 
-  const unChecked = function (cat) {
-    return selectedCats[cat] ? true : false;
-  };
-
   // replace this function with an axios post
   const handleSubmit = function (e) {
     e.preventDefault();
@@ -38,10 +34,10 @@ function Form({ categories, getChallenges }) {
           categories: Object.keys(selectedCats),
           link: link,
         })
+        .then(() => clearForm())
         .then(() => {
           getChallenges();
         })
-        .then(() => clearForm())
         .catch((err) => console.log(err));
     }
   };
