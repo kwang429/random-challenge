@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import CatCheckbox from './CatCheckbox.jsx';
 import axios from 'axios';
 
 function Form({ categories, getChallenges }) {
@@ -9,8 +10,10 @@ function Form({ categories, getChallenges }) {
   const handleCatChange = function (e) {
     let cat = e.target.value;
     if (e.target.checked) {
+      console.log('adding', cat);
       selectedCats[cat] = 1;
     } else {
+      console.log('removing', cat);
       delete selectedCats[cat];
     }
     setCat(selectedCats);
@@ -61,15 +64,12 @@ function Form({ categories, getChallenges }) {
       <h3 className='challengeCat'>Challenge Category(s): </h3>
       {categories.map((cat, index) => {
         return (
-          <div key={index}>
-            <input
-              type='checkbox'
-              name={cat.id}
-              value={cat.type}
-              onChange={handleCatChange}
-            />
-            <label>{cat.type}</label>
-          </div>
+          <CatCheckbox
+            handleCatChange={handleCatChange}
+            key={index}
+            index={index}
+            cat={cat}
+          />
         );
       })}
 
